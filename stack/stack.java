@@ -98,40 +98,42 @@ public class stack {
         System.out.println(str);
     }
 
-    public static void stockspan(int stocks[],int span[]){
+    public static void stockspan(int stocks[], int span[]) {
         Stack<Integer> s = new Stack<>();
         span[0] = 1;
-       s.push(0);
-       for (int i = 1; i < stocks.length; i++) {
-        int currPrice = stocks[i];   
-            while(!s.isEmpty() && currPrice >= stocks[s.peek()]){
+        s.push(0);
+        for (int i = 1; i < stocks.length; i++) {
+            int currPrice = stocks[i];
+            while (!s.isEmpty() && currPrice >= stocks[s.peek()]) {
                 s.pop();
             }
-            if(s.isEmpty()){
-                span[i] = i+1;
-            }else{
-                span[i]= i - s.peek();
+            if (s.isEmpty()) {
+                span[i] = i + 1;
+            } else {
+                span[i] = i - s.peek();
             }
             s.push(i);
-       }
-    }
-    public static void nextGreater(int arr[],int nextgreater[]){
-        Stack<Integer> stack = new Stack<>();
-        for (int i = arr.length-1; i >= 0; i--) {
-                while(!stack.isEmpty() && stack.peek()<= arr[i]){
-                    stack.pop();
-                }
-                if(stack.isEmpty()){
-                    nextgreater[i]=-1;
-                    stack.push(arr[i]);
-                }else{
-                    nextgreater[i]= stack.peek();
-                    stack.push(arr[i]);
-                }
         }
     }
+
+    public static void nextGreater(int arr[], int nextgreater[]) {
+        Stack<Integer> stack = new Stack<>();
+        for (int i = arr.length - 1; i >= 0; i--) {
+            while (!stack.isEmpty() && stack.peek() <= arr[i]) {
+                stack.pop();
+            }
+            if (stack.isEmpty()) {
+                nextgreater[i] = -1;
+                stack.push(arr[i]);
+            } else {
+                nextgreater[i] = stack.peek();
+                stack.push(arr[i]);
+            }
+        }
+    }
+
     public static void reverseStack(Stack<Integer> s) {
-        if(s.isEmpty()){
+        if (s.isEmpty()) {
             return;
         }
         int temp = s.pop();
@@ -139,12 +141,106 @@ public class stack {
         pushToBottom(s, temp);
     }
 
+    public static boolean vaildParanthesis(String str) {
+        int n = str.length();
+        if (n % 2 != 0) {
+            return false; // If the string length is odd, it can't be valid
+        }
+        Stack<Character> stack = new Stack<>();
+        for (int i = 0; i < str.length(); i++) {
+            char ch = str.charAt(i);
+            if (ch == '{' || ch == '(' || ch == '[') {// for opening
+                stack.push(ch);
+            } else {// for closing
+                if (stack.isEmpty()) {
+                    return false;
+                }
+                if ((stack.peek() == '{' && ch == '}') ||
+                    (stack.peek() == '[' && ch == ']') ||
+                    (stack.peek() == '(' && ch == ')')) {
+                    stack.pop();
+                } else {
+                    return false;
+                }
+            }
+        }
+        if(stack.isEmpty()){
+            
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public static boolean dublicateParanthesis(String str){
+        Stack<Character> s = new Stack<>();
+        for (int i = 0; i < str.length(); i++) {
+             char ch = str.charAt(i);
+            if(ch==')'){ // check if the current char is cloing ?
+                int count = 0;
+                while (!s.isEmpty() && s.peek() != '(') { 
+                    s.pop(); // pop the stack and increase the count till s.peek == ')' or stack empty
+                    count++;
+                }
+                    if(s.isEmpty()){
+                    return false;
+                }
+                    if(count<1){ // if yes and if count is 0 then its a dublicate parantheses
+                        return false;
+                    }else{ // if yes and count is not zero means its a vaild useful parantheses. so pop its pair and continue
+                        s.pop();
+                    }
+                
+            }else{ // if its not closing then push the char
+                s.push(ch);
+            }
+        }
+        return true;
+     }
+    public static int maxAreaofHistogram(int arr[]){
+        int length=arr.length;
+        int nsr[]= new int[length];
+        int nsl []= new int[length];
+        int maxArea = 0;
+        // for Next smaller Right
+        Stack<Integer> stack = new Stack<>();
+        for (int i = arr.length - 1; i >= 0; i--) {
+            while (!stack.isEmpty() && arr[stack.peek()] >= arr[i]) {
+                stack.pop();
+            }
+            if (stack.isEmpty()) {
+                nsr[i] = length;
+                
+            } else {
+                nsr[i] = stack.peek();
+            }
+            stack.push(i);
+        }
+        // next smaller left 
+        stack = new Stack<>();
+        for (int i =  0; i <length; i++) {
+            while (!stack.isEmpty() && arr[stack.peek()] >= arr[i]) {
+                stack.pop();
+            }
+            if (stack.isEmpty()) {
+                nsl[i] = -1;
+                
+            } else {
+                nsl[i] = stack.peek();
+            }
+            stack.push(i);
+        }
+        for (int i = 0; i < length; i++) {
+            int height = arr[i];
+            int width = nsr[i]-nsl[i]-1;
+            int area = height * width;
+            maxArea = Math.max(maxArea, area);
+        }
+        return maxArea;
+    }
     public static void main(String[] args) {
-        int arr[] = {6,8,0,1,3};
-        int greater[] = new int[arr.length];
-        nextGreater(arr, greater);
-        for (int i = 0; i < greater.length; i++) {
-            System.out.print(greater[i]+" ");
-        };
+        int arr[] = {2,1,5,6,2,};
+        System.out.println(maxAreaofHistogram(arr));
     }
 }
