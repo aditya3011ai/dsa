@@ -192,12 +192,60 @@ public class Que {
             return top;
         }
     }
+    public static void interleavesTwoHalves(Queue<Integer>q1){
+        Queue<Integer> q2 = new LinkedList<>();
+        int len = q1.size();
+        for (int i = 0; i < len/2; i++) {
+            q2.add(q1.remove());
+        }
+        for (int i = 0; i < len; i++) {
+            if(i%2==0){
+                System.out.print(q2.remove()+" ");
+            }else{
+                System.out.print(q1.remove()+" ");
+            }
+        }
+        return ;
+    }
+    public static void firstNonrepeating(String str){
+        char freq[] =new char[26];
+        Queue<Character> q = new LinkedList<>();
 
+        for (int i = 0; i < str.length(); i++) {
+            char ch = str.charAt(i);
+            freq[ch-'a']++;
+            q.add(ch);
+            while (!q.isEmpty() && freq[q.peek()-'a']!=1) {
+                q.remove();
+            }
+            if(q.isEmpty()){
+                System.out.print("-1 ");
+            }else{
+            System.out.print(q.peek()+" ");
+            }
+        }
+    }
+    public static void queueReverse(Queue<Integer>que){
+        if(que.isEmpty()){
+            return;
+        }
+       int temp = que.remove();
+       queueReverse(que);
+       que.add(temp);
+    }
     public static void main(String[] args) {
-        QueueStack s1 = new QueueStack();
-        s1.add(1);
-        s1.add(2);
-        s1.add(3);
-        System.out.println(s1.peek());
+       Queue<Integer> q1 = new LinkedList<>();
+        q1.add(1);
+        q1.add(2);
+        q1.add(3);
+        q1.add(4);
+        q1.add(5);
+        q1.add(6);
+        q1.add(7);
+        q1.add(8);
+        queueReverse(q1);
+        while(!q1.isEmpty()){
+            System.out.print(q1.remove()+" ");
+        }
     }
 }
