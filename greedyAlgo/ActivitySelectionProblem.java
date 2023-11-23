@@ -1,5 +1,5 @@
 import java.util.*;
-public class greedy {
+public class ActivitySelectionProblem {
     public static int activitySelection(int st[],int et[]){
       int arr1[][]=new int[st.length][3];
       for (int i = 0; i < st.length; i++) {
