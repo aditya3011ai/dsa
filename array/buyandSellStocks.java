@@ -31,6 +31,6 @@ public class buyandSellStocks {
 
     public static void main(String[] args) {
         int arr[] = {1,45,7,3,75};
-        System.out.println(findDublicate(arr));
+        System.out.println(buyandsell(arr));
   }
 }
