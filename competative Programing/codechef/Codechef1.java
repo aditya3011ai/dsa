@@ -6,7 +6,12 @@ class Codechef1 {
         for (int i = 0; i < T; i++) {
             int A =scanner.nextInt();
             int B =scanner.nextInt();
-           
+            if(A%2==0){
+                A--;
+            }
+            if(B%2!=0){
+                B--;
+            }
             if(A>B){
                 System.out.println("Limak");
             }else {
