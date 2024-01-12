@@ -34,18 +34,18 @@ public class trappingRainwater {
         rightMax[n-1] = arr[n-1];
         // getting the right and left Max Boundaries
         for(int i =1;i<n;i++){
-            leftMax[i] = Integer.max(leftMax[i-1], arr[i]);
-            rightMax[n-i-1] = Integer.max(rightMax[n-i], arr[n-i-1]);
+            leftMax[i] = Math.max(leftMax[i-1], arr[i]);
+            rightMax[n-i-1] = Math.max(rightMax[n-i], arr[n-i-1]);
         }
         int trappedWater =0;
         for(int i=0;i<n;i++){
-            int minBoundary = Integer.min(leftMax[i], rightMax[i]);
+            int minBoundary = Math.min(leftMax[i], rightMax[i]);
             trappedWater += minBoundary-arr[i];
         }
         return trappedWater;
     }
     public static void main(String[] args) {
-        int arr[] = {4,2,0,6,3,2,5};
+        int arr[] = {0,1,0,2,1,0,1,3,2,1,2,1};
         System.out.println(trappingRainWater(arr));
   }
 }

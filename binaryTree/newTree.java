@@ -54,12 +54,70 @@ public class newTree {
             postorderTraversal(root.right);
             System.out.print(root.data + " ");
         }
+        public void levelorder(Node root) {
+           if(root==null) return;
+            Queue<Node>q = new LinkedList<Node>();
+
+            q.add(root);
+            q.add(null);
+            while (!q.isEmpty()) {
+                Node node = q.remove();
+                if(node==null){
+                    System.out.println();
+                      if(q.isEmpty()){
+                    break;
+                }else{
+                    q.add(null);
+                }
+                }else{
+                    System.out.print(node.data+" ");
+                    if(node.left!=null){
+                        q.add(node.left);
+                    }
+                    if(node.right!=null){
+                        q.add(node.right);
+                    }
+                }
+            }
+        }
+        public int heightof(Node root){
+            if(root==null){
+                return 0;
+            }
+            return Math.max(heightof(root.left), heightof(root.right)) + 1;
+        }
+        public int countof(Node root){
+            if(root==null){
+                return 0;
+            }
+            return countof(root.left)+countof(root.right) + 1;
+        }
+        public int sumof(Node root){
+            if(root==null){
+                return 0;
+            }
+            return sumof(root.left)+sumof(root.right) + root.data;
+        }
+        public int diameterof(Node root){
+            if(root==null){
+                return 0;
+            }
+            int leftdia = diameterof(root.left);// finds the right node diameter
+            int rightdia = diameterof(root.right);//finds the left node diameter
+            int leftheight = heightof(root.left);
+            int rightheight = heightof(root.right);
+            int slef = rightheight+leftheight+1;// calculate if sleft diameter 
+            int ans = Math.max(slef, Math.max(rightdia, leftdia));
+            return ans;
+        }
     }
 
     public static void main(String[] args) throws java.lang.Exception {
-        int arr[] = { 1, 2, 4, -1, -1, 5, -1, -1, 3, -1, 6, -1, -1 };
-        Tree tree = new Tree();
+        // int arr[] = { 1, 2, 4, -1, -1, 5, -1, -1, 3, -1, 6, -1, -1 };
+        int arr[] = { 1,2,4,-1,-1,5,-1,6,-1,7,-1,-1,3,-1,8,-1,-1};
+        Tree tree = new Tree(); 
         Node root = tree.buildTree(arr);
-        tree.postorderTraversal(root);
+        tree.levelorder(root);
+        System.err.println(tree.diameterof(root));
     }
 }
