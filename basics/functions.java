@@ -5,6 +5,14 @@ public class functions {
     public static int productOF(int a, int b) {
         return a * b;
     }
+    public static boolean power(int a) {
+        for (int i = 0; i < Math.sqrt(a) ; i++) {
+            if(Math.pow(2, i)==a){
+                return true;
+            }
+        }
+        return false;
+    }
 
     public static int factorial(int a) {
         int factorial = 1;
@@ -118,6 +126,6 @@ public class functions {
 
 
     public static void main(String[] args) {
-        zeroOnePyramid(6);
+        System.out.println(power(16));
     }
 }
