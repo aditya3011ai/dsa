@@ -3,7 +3,7 @@ import java.lang.*;
 import java.io.*;
 
 public class newTree {
-   
+
     static class Node {
         int data;
         Node left;
@@ -134,54 +134,131 @@ public class newTree {
             }
             return isSubtree(root.left, sub) || isSubtree(root.right, sub);
         }
-        
-        static class Info{
+
+        public static class Info {
             int x;
             Node node;
-            Info(int x,Node node){
+
+            Info(int x, Node node) {
                 this.x = x;
                 this.node = node;
             }
         }
+
         public HashMap<Integer, Integer> topview(Node root, HashMap<Integer, Integer> map) {
             if (root == null) {
                 return map;
             }
             Queue<Info> q = new LinkedList<Info>();
-            q.add(new Info(0,root));
-            q.add(null);
-            while(!q.isEmpty()){
-                Info info = q.remove();
-                if(info.node!=null) {
-                    System.out.println(node.data+" ");
-                    if(node.left!=null){
-                        q.add(node.left);
-                    }
-                    if(node.right!=null){
-                        q.add(node.right);
-                    }
-                }else{
-                    q.add(null);
+            Info node = new Info(0, root);
+            q.add(node);
+            while (!q.isEmpty()) {
+                Info currNode = q.remove();
+                if (!map.containsKey(currNode.x)) {
+                    map.put(currNode.x, currNode.node.data);
                 }
-
+                if (currNode.node.left != null) {
+                    q.add(new Info(currNode.x - 1, currNode.node.left));
+                }
+                if (currNode.node.right != null) {
+                    q.add(new Info(currNode.x + 1, currNode.node.right));
+                }
             }
-            
             return map;
         }
+
+        public void printkth(Node root, int currlevel, int k) {
+            if (root == null)
+                return;
+            if (currlevel == k) {
+                System.out.print(root.data + " ");
+            } else {
+                if (root.left != null) {
+                    printkth(root.left, currlevel + 1, k);
+                }
+                if (root.right != null) {
+                    printkth(root.right, currlevel + 1, k);
+                }
+            }
+        }
+
+        public boolean getPath(Node root, ArrayList<Integer> path, int n1,int i) {
+            if (root == null) {
+                return false;
+            }
+            path.add(root.data);// adding node to path
+            if (root.data == n1) {
+                return true;
+            }
+            if (getPath(root.left, path, n1,i+1) || getPath(root.right, path, n1,i+1)) {
+                return true;
+            }
+            path.remove(i); // removing node from the pasth
+            return false;
+        }
+
+        public void lowestCommonAncestor(Node root, int node1, int node2) {
+            ArrayList<Integer> path1 = new ArrayList<Integer>();
+            ArrayList<Integer> path2 = new ArrayList<Integer>();
+            int i=0;
+            getPath(root, path1, node1,i);
+            getPath(root, path2, node2,i);
+            while (i < path1.size() && i < path2.size()) {
+                if (path1.get(i) != path2.get(i)) {
+                    break;
+                }
+                i++;
+            }
+            System.out.println(path1.get(i-1));
+            return;
+        }
+        public Node lca2(Node root ,int n1,int n2){
+            if(root==null|| root.data==n1||root.data==n2){
+                return root;
+            }
+            Node left = lca2(root.left, n1, n2);
+            Node right = lca2(root.right, n1, n2);
+            if(left==null){
+                return right;
+            }
+            if(right==null){
+                return left;
+            }
+            return root;
+        }
+        public int rootDistance(Node root,int n){
+            if(root==null) 
+            return -1;
+            if(root.data==n)
+                return 0;
+            int left =  rootDistance(root.left, n);
+            int right =  rootDistance(root.right, n);
+            if(left>-1){
+                return left+1;
+            }
+            if(right>-1){
+                return right+1;
+            }
+            return -1;
+        }
+        public int minDistance(Node root,int n1,int n2){
+            Node lca = lca2(root, n1, n2);
+            int minDistance1 = rootDistance(lca, n1);
+            int minDistance2 = rootDistance(lca, n2);
+            return minDistance1+minDistance2;
+        }
     }
-  
+
     public static void main(String[] args) throws java.lang.Exception {
         // int arr[] = { 1, 2, 4, -1, -1, 5, -1, -1, 3, -1, 6, -1, -1 };
         // int arr[] = { 2,2,4,-1,-1,5,-1,-1,7,-1,3,-1,8,-1,-1};
-        int arr[] = { 1,2,4,-1,-1,5,-1,-1,3,4,-1,1,-1,1,-1,-1,6,-1,-1};
+        int arr[] = { 1, 2, 4, -1, -1, 5, -1, -1, 3,-1, 6, -1, 100,-1,-1 };
         Tree tree = new Tree();
         Node root = tree.buildTree(arr);
-        tree.preorderTraversal(root);
-        HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
-        map = tree.topview(root, 0, map);
-        System.out.println();
-        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
-            System.out.println(entry.getValue());
-        }
+        // tree.lowestCommonAncestor(root, 4, 6);    
+        System.out.println(tree.minDistance(root,4 , 100));    
+        // for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+        // System.out.print(entry.getValue() + " ");
+        // }
     }
 }

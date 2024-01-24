@@ -17,7 +17,7 @@ public class knapsack {
         int val[]={15,14,10,45,30};
         int wt[]={2,5,1,3,4};
         int W = 7;
-        int n = val.length-2;
+        int n = val.length-2; // 3
         int dp[][] = new int[val.length+1][W+1];
         for (int i = 0; i < dp.length; i++) {
             for (int j = 0; j < dp[0].length; j++) {
