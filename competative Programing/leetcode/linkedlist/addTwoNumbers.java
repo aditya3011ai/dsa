@@ -1,4 +1,3 @@
-package linkedlist;
 
 import java.util.*;
 
@@ -19,7 +18,28 @@ public class addTwoNumbers {
       this.next = next;
     }
   }
-
+  public static ListNode removeElements(ListNode head, int val) {
+    if(head==null) return head;
+    while(head!=null &&head.val==val){
+      head = head.next;
+    }
+    ListNode prev = head;
+    ListNode curr = head.next;
+    ListNode ans = prev;
+    while (curr!=null) {
+      if(curr.val==val){
+        while (curr!=null &&  curr.val==val) {
+          curr = curr.next;
+        }
+      }
+      prev.next = curr;
+      prev = prev.next;
+      if(curr!=null){
+        curr = curr.next;
+      }
+    }
+    return ans;
+  }
   public static ListNode addTwoNums(ListNode l1, ListNode l2) {
     ListNode head = new ListNode(0);
     ListNode l3 = head;
@@ -41,9 +61,11 @@ public class addTwoNumbers {
   }
 
   public static void main(String[] args) {
+    ListNode head = new ListNode(1, new ListNode(3, new ListNode(1, new ListNode(2, new ListNode(5)))));
+
     ListNode l1 = new ListNode(2, new ListNode(4, new ListNode(3)));
     ListNode l2 = new ListNode(5, new ListNode(6, new ListNode(4)));
-    ListNode ans = addTwoNums(l1, l2);
+    ListNode ans = removeElements(head,1);
     while (ans != null) {
       System.out.print(ans.val + " ");
       ans = ans.next;

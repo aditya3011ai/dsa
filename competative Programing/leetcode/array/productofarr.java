@@ -1,5 +1,3 @@
-package array;
-
 import java.util.*;
 public class productofarr {
     public static int[] productExceptSelf(int[] nums) {

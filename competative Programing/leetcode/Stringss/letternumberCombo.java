@@ -1,4 +1,3 @@
-package Stringss;
 
 import java.util.*;
 public class letternumberCombo {
