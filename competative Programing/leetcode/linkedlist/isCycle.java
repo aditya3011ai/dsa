@@ -1,5 +1,3 @@
-package linkedlist;
-
 import java.util.*;
 public class isCycle {
     public static class ListNode {
@@ -36,7 +34,7 @@ public class isCycle {
             res.add(head.val);
         }
         int l =0;
-        int r = res.length;
+        int r = res.size();
         while (l<r) {
             if(res.get(l)!=res.get(r)){
                 return false;

@@ -1,6 +1,3 @@
-package linkedlist;
-
-
 import java.util.*;
 public class deletedub {
     public static class ListNode {

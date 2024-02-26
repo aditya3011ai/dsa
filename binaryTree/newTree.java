@@ -251,7 +251,10 @@ public class newTree {
             int minDistance2 = rootDistance(lca, n2);
             return minDistance1 + minDistance2;
         }
-
+        public int minDepth(Node root,int depth){
+            if(root == null)return depth;
+            return Math.min(minDepth(root.left, depth), minDepth(root.left, depth))+1;
+        }
         public int kthancestor(Node root, int n, int k) {
             if(root==null){
                 return -1;
