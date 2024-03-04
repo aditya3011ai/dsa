@@ -47,7 +47,6 @@ public class newTree {
             System.out.print(root.data + " ");
             inorderTraversal(root.right);
         }
-        
 
         public void postorderTraversal(Node root) {
             if (root == null) {
@@ -121,6 +120,13 @@ public class newTree {
         }
 
         public boolean isSubtree(Node root, Node sub) {
+            if(root==null && sub !=null)return false;
+            if(root!=null && sub ==null)return true;
+            if(isSubtree(root, sub))return true;
+            return isSubtree(root.left, sub)|| isSubtree(root.right, sub);
+        }
+
+        public boolean sameTree(Node root, Node sub) {
             if (root == null && sub == null) {
                 return true;
             }
@@ -128,12 +134,12 @@ public class newTree {
                 return false;
             }
             if (root.data == sub.data) {
-                boolean ans = isSubtree(root.right, sub.right) && isSubtree(root.left, sub.left);
+                boolean ans = sameTree(root.right, sub.right) && sameTree(root.left, sub.left);
                 if (ans) {
                     return true;
                 }
             }
-            return isSubtree(root.left, sub) || isSubtree(root.right, sub);
+            return false;
         }
 
         public static class Info {
@@ -251,48 +257,52 @@ public class newTree {
             int minDistance2 = rootDistance(lca, n2);
             return minDistance1 + minDistance2;
         }
-        public int minDepth(Node root,int depth){
-            if(root == null)return depth;
-            return Math.min(minDepth(root.left, depth), minDepth(root.left, depth))+1;
+
+        public int minDepth(Node root, int depth) {
+            if (root == null)
+                return depth;
+            return Math.min(minDepth(root.left, depth), minDepth(root.left, depth)) + 1;
         }
+
         public int kthancestor(Node root, int n, int k) {
-            if(root==null){
+            if (root == null) {
                 return -1;
             }
             if (root.data == n) {
                 return 0;
             }
-           
+
             int left = kthancestor(root.left, n, k);
             int right = kthancestor(root.right, n, k);
             int max = Math.max(left, right);
-           if(max>-1){
-                if(max+1==k){
+            if (max > -1) {
+                if (max + 1 == k) {
                     System.out.println(root.data);
                 }
-                return max+1;
-           }
+                return max + 1;
+            }
 
             return -1;
 
         }
-        public int transformtosumtree(Node root){
-            if(root==null){
+
+        public int transformtosumtree(Node root) {
+            if (root == null) {
                 return 0;
             }
             int left = transformtosumtree(root.left);
             int right = transformtosumtree(root.right);
             int prev = root.data;
-            root.data = left+right;
+            root.data = left + right;
 
-            return prev+root.data;
+            return prev + root.data;
         }
     }
 
     public static void main(String[] args) throws java.lang.Exception {
         // int arr[] = { 1, 2, 4, -1, -1, 5, -1, -1, 3, -1, 6, -1, -1 };
         // int arr[] = { 2,2,4,-1,-1,5,-1,-1,7,-1,3,-1,8,-1,-1};
-        int arr[] = { 1, 2, 4, -1, -1, 5, -1, -1, 3, 6, -1, -1,7,-1,-1 };
+        int arr[] = { 1, 2, 4, -1, -1, 5, -1, -1, 3, 6, -1, -1, 7, -1, -1 };
         Tree tree = new Tree();
         Node root = tree.buildTree(arr);
         // tree.lowestCommonAncestor(root, 4, 6);
