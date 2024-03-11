@@ -1,7 +1,6 @@
 import java.util.*;
 
 public class nqueens {
-
     static List<List<String>> res = new LinkedList<>();
     public static List<List<String>> solveNQueens(int n) {
         char[][] board = new char[n][n];

@@ -1,42 +1,68 @@
 import java.util.*;
+
 public class isCycle {
     public static class ListNode {
         int val;
         ListNode next;
-    
+
         ListNode() {
         }
-    
+
         ListNode(int val) {
-          this.val = val;
+            this.val = val;
         }
-    
+
         ListNode(int val, ListNode next) {
-          this.val = val;
-          this.next = next;
+            this.val = val;
+            this.next = next;
         }
-      }
+    }
+
     public static boolean hasCycle(ListNode head) {
         ListNode slow = head;
         ListNode fast = head;
-        while (fast.next!=null && fast.next.next!=null) {
+        while (fast.next != null && fast.next.next != null) {
             slow = slow.next;
             fast = fast.next.next;
-            if(slow == fast){
+            if (slow == fast) {
                 return true;
             }
         }
+        ListNode node = head;
+        while (node != slow) {
+            node = node.next;
+            slow = slow.next;
+        }
         return false;
-    } 
+    }
+   
+    public static ListNode cycle(ListNode head) {
+        ListNode slow = head;
+        ListNode fast = head;
+        while (fast.next != null && fast.next.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+            if (slow == fast) {
+                ListNode node = head;
+                while (node != slow) {
+                    node = node.next;
+                    slow = slow.next;
+                }
+                return node;
+            }
+        }
+        return null;
+    }
+
     public static boolean isPalindrome(ListNode head) {
         ArrayList<Integer> res = new ArrayList<>();
-        while (head!=null) {
+        while (head != null) {
             res.add(head.val);
         }
-        int l =0;
+        int l = 0;
         int r = res.size();
-        while (l<r) {
-            if(res.get(l)!=res.get(r)){
+        while (l < r) {
+            if (res.get(l) != res.get(r)) {
                 return false;
             }
             l++;
@@ -44,16 +70,18 @@ public class isCycle {
         }
         return true;
     }
-    public static  ListNode middleNode(ListNode head) {
+
+    public static ListNode middleNode(ListNode head) {
         ListNode slow = head;
         ListNode fast = head;
-        while (fast != null && fast.next!=null) {
+        while (fast != null && fast.next != null) {
             slow = slow.next;
             fast = fast.next.next;
         }
         return slow;
     }
+
     public static void main(String[] args) {
-    
-  }
+
+    }
 }
